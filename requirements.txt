@@ -1,5 +1,6 @@
 python-dotenv
 langchain
+langchainhub
 langchain-openai
 langchain-community
-langchainhub
+langchain-ollama

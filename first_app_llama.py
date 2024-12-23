@@ -1,5 +1,6 @@
 from langchain_core.prompts import PromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
+from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 import os
 
@@ -12,7 +13,6 @@ Bennington formed his own band, Dead by Sunrise, as a side project in 2005. The 
 
 Bennington struggled with depression and substance abuse for most of his life, starting in his childhood. On July 20, 2017, he was found dead at his home in Palos Verdes Estates, California. The coroner concluded that his death was a result of suicide by hanging. Hit Parader magazine placed Bennington at number 46 on their list of the "Top 100 Metal Vocalists of All Time."[5] Bennington has been ranked by several publications as one of the greatest rock vocalists of his generation.[6] Writing for Billboard, Dan Weiss stated that Bennington "turned nu-metal universal."[7]
 """
-model_name = "gpt-3.5-turbo"
 
 if __name__ == "__main__":
     print("Starting LangChain App!")
@@ -29,9 +29,9 @@ Given the information {information} about a person from I want you to create:
         input_variables=["information"], template=summary_template
     )
 
-    llm = ChatOpenAI(temperature=0, model_name=model_name)
+    llm = ChatOllama(model="llama3")
 
-    chain = summary_prompt_template | llm
+    chain = summary_prompt_template | llm | StrOutputParser()
 
     res = chain.invoke(input={"information": information})
 
