@@ -1,10 +1,10 @@
-import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import Tool
 from langchain.agents import create_react_agent, AgentExecutor
-from langchainhub import hub
+from langchain import hub
+from tools.tools import get_profile_url_tavily
 
 load_dotenv()
 
@@ -22,7 +22,7 @@ Your answer should contain only a URL.\
     tools_for_agent = [
         Tool(
             name="Crawl Google for LinkedIn profile page",
-            func="?",
+            func=get_profile_url_tavily,
             description="Useful for when you need to get the LinkedIn page URL",
         )
     ]
@@ -40,5 +40,5 @@ Your answer should contain only a URL.\
 
 
 if __name__ == "__main__":
-    linkedin_url = lookup(name="Amir Zare")
+    linkedin_url = lookup(name="Amir Zare Physics Olympiad")
     print(linkedin_url)
