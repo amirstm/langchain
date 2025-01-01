@@ -3,6 +3,7 @@ from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 from third_parties.linkedin import scrape_linkedin_profile
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+from output_parsers import summary_parser
 
 
 def custom_lookup(name: str) -> str:
@@ -15,14 +16,19 @@ def custom_lookup(name: str) -> str:
 Given the information {information} about a person from I want you to create:
     1. a short summary
     2. two interesting facts about them
+{format_instructions}
 """
 
     summary_prompt_template = PromptTemplate(
-        input_variables=["information"], template=summary_template
+        input_variables=["information"],
+        template=summary_template,
+        partial_variables={
+            "format_instructions": summary_parser.get_format_instructions()
+        },
     )
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-4o-mini")
-    chain = summary_prompt_template | llm
+    chain = summary_prompt_template | llm | summary_parser
     res = chain.invoke(input={"information": linkedin_data})
 
     print(res)
