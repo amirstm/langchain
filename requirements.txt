@@ -4,3 +4,4 @@ langchainhub
 langchain-openai
 langchain-community
 langchain-ollama
+flask
