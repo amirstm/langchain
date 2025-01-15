@@ -39,4 +39,4 @@ if __name__ == "__main__":
     load_dotenv()
     print("Hello langchain!")
 
-    custom_lookup("Amir Zare Physics Olympiad")
+    custom_lookup("Amir Zare Physics Olympiad Arka Equities")
