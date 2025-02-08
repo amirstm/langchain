@@ -17,8 +17,8 @@ def get_text_length(text: str) -> int:
 
 if __name__ == "__main__":
     print("Hello ReAct Langchain!")
-    print(get_text_length.description)
-    print(get_text_length.invoke(input={"text": "Sample"}))
+    # print(get_text_length.description)
+    # print(get_text_length.invoke(input={"text": "Sample"}))
 
     tools = [get_text_length]
     template = """
@@ -49,3 +49,9 @@ if __name__ == "__main__":
     )
 
     llm = ChatOpenAI(temperature=0, stop=["\nObservation"])
+    agent = {"input": lambda x: x["input"]} | prompt | llm
+
+    invoke_result = agent.invoke(
+        {"input": "What is the text length of 'Doggie' in characters?"}
+    )
+    print(invoke_result)
