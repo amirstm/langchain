@@ -20,6 +20,20 @@ def get_text_length(text: str) -> int:
     return len(text)
 
 
+@tool
+def get_text_vowel_count(text: str) -> int:
+    """Returns the number of vowels in a text"""
+    print(f"get_text_vowel_count enter with {text=}")
+    vcount = (
+        text.count("a")
+        + text.count("e")
+        + text.count("i")
+        + text.count("o")
+        + text.count("u")
+    )
+    return vcount
+
+
 def find_tool_by_name(tools: List[Tool], tool_name: str) -> Tool:
     for tool in tools:
         if tool.name == tool_name:
@@ -32,7 +46,7 @@ if __name__ == "__main__":
     # print(get_text_length.description)
     # print(get_text_length.invoke(input={"text": "Sample"}))
 
-    tools = [get_text_length]
+    tools = [get_text_length, get_text_vowel_count]
     template = """
     Answer the following questions as best you can. You have access to the following tools:
 
@@ -67,7 +81,8 @@ if __name__ == "__main__":
 
     agent_step: Union[AgentAction, AgentFinish] = agent.invoke(
         {
-            "input": "What is the length of 'Doggie' in characters?",
+            "input": "What is the length in characters of the text doggie?",
+            # "input": "How many vowels are there in the text doggie?",
         }
     )
     print(agent_step)
