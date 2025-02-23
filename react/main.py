@@ -3,6 +3,7 @@ from langchain.agents import tool, Tool
 from langchain.agents.output_parsers import (
     ReActSingleInputOutputParser,
 )
+from langchain.agents.format_scratchpad.log import format_log_to_str
 from langchain_core.prompts import PromptTemplate
 from langchain.tools.render import render_text_description
 from langchain_openai import ChatOpenAI
@@ -79,7 +80,7 @@ if __name__ == "__main__":
     agent = (
         {
             "input": lambda x: x["input"],
-            "agent_scratchpad": lambda x: x["agent_scratchpad"],
+            "agent_scratchpad": lambda x: format_log_to_str(x["agent_scratchpad"]),
         }
         | prompt
         | llm
@@ -102,4 +103,12 @@ if __name__ == "__main__":
         observation = tool_to_use.func(str(tool_input))
 
         print(f"{observation=}")
-        intermediate_steps.append(agent_step, str(observation))
+        intermediate_steps.append((agent_step, str(observation)))
+
+    agent_step: Union[AgentAction, AgentFinish] = agent.invoke(
+        {
+            "input": "What is the length in characters of the text doggie?",
+            "agent_scratchpad": intermediate_steps,
+        }
+    )
+    print(agent_step)
