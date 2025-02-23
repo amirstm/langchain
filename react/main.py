@@ -112,3 +112,5 @@ if __name__ == "__main__":
         }
     )
     print(agent_step)
+    if isinstance(agent_step, AgentFinish):
+        print(agent_step.return_values)
