@@ -8,6 +8,8 @@ class AgentCallbackHandler(BaseCallbackHandler):
         self, serialized: Dict[str, Any], prompts: List[str], **kwargs: Any
     ) -> Any:
         """Run when LLM starts running"""
+        print(f"***Prompt to LLM was:***\n{prompts[0]}")
+        print("************")
 
     def on_llm_end(self, response: LLMResult, **kwargs: Any) -> Any:
         """Run when LLM ends running"""
